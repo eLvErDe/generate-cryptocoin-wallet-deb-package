@@ -48,4 +48,4 @@ if __name__ == '__main__':
             git_url=config.git_url,
             version=git_actions.version
         )
-        template_actions.process
+        template_actions.process()
