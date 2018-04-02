@@ -167,7 +167,7 @@ class GitActions:
 
         latest_tag_from_checkout = self.latest_tag_from_checkout()
         if latest_tag_from_checkout is not None:
-            re_match = re.search(r'^[vV]([0-9\.]+)$', latest_tag_from_checkout)
+            re_match = re.search(r'^[vV]?([0-9\.]+)$', latest_tag_from_checkout)
             if re_match:
                 self.version = re_match.group(1)
             else:
