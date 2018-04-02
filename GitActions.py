@@ -23,6 +23,7 @@ class GitActions:
         self.version = version
         self.git_short_commit_id =None
         self.archive_path = None
+        self.ignore_list = [ '.git', '.gitignore', 'binaries' ]
 
     def process(self):
         """ Sequencially run through all steps """
@@ -135,6 +136,7 @@ class GitActions:
         filename = '%s_%s.orig.tar.gz' % (self.name, self.version)
         self.archive_path = os.path.join(self.tmp_path, filename)
         self.logger.info('Generating upstream tarball archive at %s', self.archive_path)
+        self.logger.info('Ignoring the following files/directories: %s', self.ignore_list)
 
         def relative_arcname_and_filter(tarinfo):
 
@@ -148,7 +150,7 @@ class GitActions:
             # head will be empty string if there is no folder in path
             head, tail = os.path.split(tarinfo.name)
             to_filter = head if head != '' else tail
-            if to_filter in [ '.git', '.gitignore' ]:
+            if to_filter in self.ignore_list:
                 return None
 
             # 4. Add a top folder containing project-version
