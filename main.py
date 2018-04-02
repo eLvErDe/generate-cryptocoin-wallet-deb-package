@@ -28,7 +28,7 @@ if __name__ == '__main__':
     def cli_arguments():
         """ Command line arguments """
 
-        parser = argparse.ArgumentParser(description='Create a source Debian package for any cryptocoin wallet')
+        parser = argparse.ArgumentParser(description='Create a source Debian package for any cryptocoin wallet', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
         parser.add_argument('-n', '--name',         required=True,    type=str, help='Coin name',                     metavar='raven')
         parser.add_argument('-g', '--git-url',      required=True,    type=str, help='GIT project url',               metavar='https://github.com/RavenProject/Ravencoin.git')
         parser.add_argument('-c', '--git-checkout', default='master', type=str, help='GIT tag or branch to checkout', metavar='master or v0.15.99.0')
