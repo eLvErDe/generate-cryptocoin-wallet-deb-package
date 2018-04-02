@@ -36,7 +36,7 @@ Vcs-Browser: {{ git_url }}
 Package: {{ name }}d
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: peer-to-peer network based digital currency - daemon
+Description: {{ name|capitalize }} p2p digital currency - daemon
  {{ name|capitalize }} is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
@@ -49,19 +49,19 @@ Description: peer-to-peer network based digital currency - daemon
 Package: {{ name }}-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: peer-to-peer network based digital currency - Qt GUI
+Description: {{ name|capitalize }} p2p digital currency - Qt GUI
  {{ name|capitalize }} is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
  check for double-spending.
  .
- This package provides {{ name|capitalize }}-Qt, a GUI for {{ name|capitalize }} based on Qt.
+ This package provides {{ name|capitalize }}-qt, a GUI for {{ name|capitalize }} based on Qt.
 
 Package: {{ name }}-tx
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: peer-to-peer digital currency - standalone transaction tool
+Description: {{ name|capitalize }} p2p digital currency - standalone transaction tool
  {{ name|capitalize }} is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
