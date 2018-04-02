@@ -1,6 +1,7 @@
 import os
 import logging
 import subprocess
+import datetime
 import pathlib
 import jinja2
 
@@ -11,7 +12,15 @@ FILE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 class TemplateActions:
     """ A class implementing all steps to produce a tar archive from a git url and branch/tag """
 
-    def __init__(self, *, name, tmp_path, archive_path, git_url, version):
+    @staticmethod
+    def get_locale_tz():
+        return datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
+
+    @staticmethod
+    def now_debian_changelog(tzinfo):
+        return datetime.datetime.strftime(datetime.datetime.now(tzinfo), '%a, %d %b %Y %H:%M:%S %z')
+
+    def __init__(self, *, name, tmp_path, archive_path, git_url, version, debian_revision, maintainer_name, maintainer_email):
         """ Well, that's __init__ """
 
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -20,7 +29,11 @@ class TemplateActions:
         self.archive_path = archive_path
         self.git_url = git_url
         self.version = version
+        self.debian_revision = debian_revision
+        self.maintainer_name = maintainer_name
+        self.maintainer_email = maintainer_email
         self.extract_path = os.path.join(self.tmp_path, '%s-%s' % (self.name, self.version))
+
 
     def process(self):
         """ Sequencially run through all steps """
@@ -64,7 +77,12 @@ class TemplateActions:
             'name': self.name,
             'git_url': self.git_url,
             'version': self.version,
+            'debian_revision': self.debian_revision,
+            'timestamp': self.now_debian_changelog(self.get_locale_tz()),
+            'maintainer_name': self.maintainer_name,
+            'maintainer_email': self.maintainer_email,
         }
+        self.logger.info('Maintainer set to %s <%s>', self.maintainer_name, self.maintainer_email)
 
         # First iteration to create folder
         for abs_template_file in template_folder.glob('**/*'):
