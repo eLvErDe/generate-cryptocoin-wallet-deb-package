@@ -110,6 +110,3 @@ class TplActions:
                 self.logger.info('Rendering file from template: %s', dest_template_file)
                 with open(abs_template_file, 'r') as template_fp:
                     jinja2.Template(template_fp.read()).stream(**data).dump(dest_template_file)
-
-        import time
-        time.sleep(60)
