@@ -1,11 +1,10 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Bitcoin
-Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#bitcoin@freenode.net
-Source: https://github.com/bitcoin/bitcoin
+Upstream-Name: {{ name|capitalize }}
+Source: {{ git_url }}
 
 Files: *
-Copyright: 2009-2017, Bitcoin Core Developers
+Copyright: 2017-now, {{ name|capitalize }} Developers
+           2009-2017, Bitcoin Core Developers
 License: Expat
 Comment: The Bitcoin Core Developers encompasses the current developers listed on bitcoin.org,
          as well as the numerous contributors to the project.
@@ -78,12 +77,12 @@ License: Expat
 Comment: Modifications of Stephan Hutchings Typicons
 
 Files: src/qt/res/icons/about.png
-       src/qt/res/icons/bitcoin.*
-       share/pixmaps/bitcoin*
-       src/qt/res/src/bitcoin.svg
-Copyright: Bitboy, Jonas Schnelli
-License: public-domain
-Comment: Site: https://bitcointalk.org/?topic=1756.0
+       src/qt/res/icons/{{ name }}.*
+       share/pixmaps/{{ name }}*
+       src/qt/res/src/{{ name }}.svg
+Copyright: {{ name|capitalize }} Developers
+License: Expat
+Comment:
 
 
 License: Expat
