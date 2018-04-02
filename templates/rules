@@ -13,6 +13,11 @@ PKG_VERSION_TAG := $(PKG_VERSION)+$(DIST_NAME).$(DIST_RELEASE).$(DIST_VERSION)
 #build/{{ name }}d::
 #	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_{{ name }})
 
+# For coin based on older versions
+export CC_FOR_BUILD="$(CC)"
+export CLAGS_FOR_BUILD="$(CFLAGS)"
+export CPPFLAGS_FOR_BUILD="$(CPPFLAGS)"
+
 %:
 	dh --with bash-completion --parallel $@
 
@@ -20,8 +25,9 @@ override_dh_auto_clean:
 	if [ -f Makefile ]; then $(MAKE) distclean; fi
 	rm -rf Makefile.in aclocal.m4 configure src/Makefile.in src/{{ name }}-config.h.in src/build-aux src/qt/Makefile.in src/qt/test/Makefile.in src/test/Makefile.in
 {%- if name == 'infinex' %}
-	sed -i 's!CPPFLAGS_FOR_BUILD =!CPPFLAGS_FOR_BUILD +=!' src/secp256k1/Makefile.am
-	sed -i 's!CFLAGS_FOR_BUILD =!CPPFLAGS_FOR_BUILD +=!' src/secp256k1/Makefile.am
+	sed -i '/^CPPFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
+	sed -i '/^CFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
+	sed -i 's!-Wno-unused-parameter -Wno-implicit-fallthrough!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough!' configure.ac
 {%- endif %}
 
 # Yea, autogen should be run on the source archive, but I like doing git archive
@@ -30,8 +36,11 @@ override_dh_auto_configure:
 	# Infinex ships non executable shell scripts
 	find . -type f -name '*.sh' -exec chmod 0755 {} \;
 	# Infinex also use += before = which make autogen fail
-	sed -i 's!CPPFLAGS_FOR_BUILD +=!CPPFLAGS_FOR_BUILD =!' src/secp256k1/Makefile.am
-	sed -i 's!CFLAGS_FOR_BUILD +=!CPPFLAGS_FOR_BUILD =!' src/secp256k1/Makefile.am
+	sed -i 's!^\(CPPFLAGS_FOR_BUILD +=.*\)!CPPFLAGS_FOR_BUILD =\n\1!' src/secp256k1/Makefile.am
+	sed -i 's!^\(CFLAGS_FOR_BUILD +=.*\)!CFLAGS_FOR_BUILD =\n\1!' src/secp256k1/Makefile.am
+	# This option is not available on older GCC
+	# https://github.com/bitcoin/bitcoin/pull/7954
+	sed -i 's!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough!-Wno-unused-parameter -Wno-implicit-fallthrough!' configure.ac
 {%- endif %}
 	./autogen.sh
 	./configure --with-gui=qt5
