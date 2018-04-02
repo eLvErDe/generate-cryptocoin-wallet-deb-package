@@ -175,7 +175,11 @@ class GitActions:
         else:
             self.version = '0.0'
 
-        latest_tag_from_checkout_commit_id = self.git_tag_commit_id(latest_tag_from_checkout, length=len(self.git_short_commit_id))
+
+        if latest_tag_from_checkout is not None:
+            latest_tag_from_checkout_commit_id = self.git_tag_commit_id(latest_tag_from_checkout, length=len(self.git_short_commit_id))
+        else:
+            latest_tag_from_checkout_commit_id = None
 
         if self.git_short_commit_id == latest_tag_from_checkout_commit_id:
             self.logger.info('Git commit id of request checkout matches newest tag, looks like it is a stable release')
