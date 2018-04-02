@@ -6,6 +6,8 @@ import logging
 import tempfile
 
 from GitActions import GitActions
+from TemplateActions import TemplateActions
+
 
 if __name__ == '__main__':
 
@@ -13,6 +15,8 @@ if __name__ == '__main__':
     logger = logging.getLogger('main')
 
     def cli_arguments():
+        """ Command line arguments """
+
         parser = argparse.ArgumentParser(description='Create a source Debian package for any cryptocoin wallet')
         parser.add_argument('-n', '--name',         required=True,    type=str, help='Coin name',                     metavar='raven')
         parser.add_argument('-g', '--git-url',      required=True,    type=str, help='GIT project url',               metavar='https://github.com/RavenProject/Ravencoin.git')
@@ -24,6 +28,8 @@ if __name__ == '__main__':
 
     with tempfile.TemporaryDirectory() as tmp_path:
 
+        # Create upstream tar archive
+
         git_actions = GitActions(
             name=config.name,
             git_url=config.git_url,
@@ -31,5 +37,15 @@ if __name__ == '__main__':
             version=config.version,
             tmp_path=tmp_path,
         )
-
         git_actions.process()
+
+        # Generate Debian packaging from templatized Bitcoin one
+
+        template_actions = TemplateActions(
+            name=config.name,
+            tmp_path=tmp_path,
+            archive_path=git_actions.archive_path,
+            git_url=config.git_url,
+            version=git_actions.version
+        )
+        template_actions.process
