@@ -1,13 +1,13 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Bitcoin Core
-Comment=Connect to the Bitcoin P2P Network
-Comment[de]=Verbinde mit dem Bitcoin peer-to-peer Netzwerk
-Comment[fr]=Bitcoin, monnaie virtuelle cryptographique pair à pair
-Comment[tr]=Bitcoin, eşten eşe kriptografik sanal para birimi
-Exec=bitcoin-qt %u
+Name={{ name|capitalize }} Core
+Comment=Connect to the {{ name|capitalize }} P2P Network
+Comment[de]=Verbinde mit dem {{ name|capitalize }} peer-to-peer Netzwerk
+Comment[fr]={{ name|capitalize }}, monnaie virtuelle cryptographique pair à pair
+Comment[tr]={{ name|capitalize }}, eşten eşe kriptografik sanal para birimi
+Exec={{ name }}-qt %u
 Terminal=false
 Type=Application
-Icon=bitcoin128
-MimeType=x-scheme-handler/bitcoin;
+Icon={{ name }}128
+MimeType=x-scheme-handler/{{ name }};
 Categories=Office;Finance;
