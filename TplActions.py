@@ -9,8 +9,8 @@ import jinja2
 FILE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 
-class TemplateActions:
-    """ A class implementing all steps to produce a tar archive from a git url and branch/tag """
+class TplActions:
+    """ A class generating debian packaging file from templates """
 
     @staticmethod
     def get_locale_tz():

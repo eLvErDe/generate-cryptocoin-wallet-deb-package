@@ -7,7 +7,7 @@ import tempfile
 import os
 
 from GitActions import GitActions
-from TemplateActions import TemplateActions
+from TplActions import TplActions
 
 
 if __name__ == '__main__':
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
         # Generate Debian packaging from templatized Bitcoin one
 
-        template_actions = TemplateActions(
+        tpl_actions = TplActions(
             name=config.name,
             tmp_path=tmp_path,
             archive_path=git_actions.archive_path,
@@ -65,4 +65,4 @@ if __name__ == '__main__':
             maintainer_name=config.maintainer_name,
             maintainer_email=config.maintainer_email,
         )
-        template_actions.process()
+        tpl_actions.process()
