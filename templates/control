@@ -25,7 +25,9 @@ Build-Depends: debhelper,
  libqrencode-dev,
  libprotobuf-dev, protobuf-compiler,
  python,
- libzmq3-dev
+ libzmq3-dev,
+# To generated distribution tag in package version
+ lsb-release,
 Standards-Version: 3.9.2
 Homepage: {{ git_url }}
 Vcs-Git: {{ git_url }}

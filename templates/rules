@@ -1,6 +1,14 @@
 #!/usr/bin/make -f
 # -*- mode: makefile; coding: utf-8 -*-
 
+# Get version from changelog as well as lsb_release
+# to compute unique build version (useful for repo mirroring systems doing file pooling)
+PKG_VERSION  := $(shell dpkg-parsechangelog | grep -E '^Version:' | cut -d' ' -f2)
+DIST_NAME    := $(shell lsb_release -si)
+DIST_RELEASE := $(shell lsb_release -sc)
+DIST_VERSION := $(shell lsb_release -sr)
+PKG_VERSION_TAG := $(PKG_VERSION)+$(DIST_NAME).$(DIST_RELEASE).$(DIST_VERSION)
+
 #DEB_MAKE_CHECK_TARGET = test_{{ name }}
 #build/{{ name }}d::
 #	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_{{ name }})
@@ -32,3 +40,6 @@ ifeq ($(QT), qt4)
 else
 	make check
 endif
+
+override_dh_gencontrol:
+	dh_gencontrol -- -v"$(PKG_VERSION_TAG)"
