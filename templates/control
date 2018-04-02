@@ -1,8 +1,8 @@
 Source: {{ name }}
 Section: utils
 Priority: optional
-Maintainer: Matt Corallo <matt@mattcorallo.com>
-Uploaders: Matt Corallo <matt@mattcorallo.com>
+Maintainer: {{ maintainer_name }} <{{ maintainer_email }}>
+Uploaders: {{ maintainer_name }} <{{ maintainer_email }}>
 Build-Depends: debhelper,
  devscripts,
  automake,
