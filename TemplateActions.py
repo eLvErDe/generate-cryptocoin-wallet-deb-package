@@ -1,6 +1,11 @@
 import os
 import logging
 import subprocess
+import pathlib
+import jinja2
+
+
+FILE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 
 class TemplateActions:
@@ -21,6 +26,7 @@ class TemplateActions:
         """ Sequencially run through all steps """
 
         self.untar()
+        self.jinja2_render()
 
     def log_output(self, output, prefix='', level=logging.INFO):
         """ Turn subprocess call output into logger entries """
@@ -49,3 +55,43 @@ class TemplateActions:
             raise
 
         self.logger.info('Upstream source tarball extracted to %s', self.extract_path)
+
+    def jinja2_render(self):
+        """ Loop around files in templates folder and render them """
+
+        template_folder = pathlib.Path(FILE_FOLDER, 'templates')
+        data = {
+            'name': self.name,
+            'git_url': self.git_url,
+            'version': self.version,
+        }
+
+        # First iteration to create folder
+        for abs_template_file in template_folder.glob('**/*'):
+
+            relative_template_file = abs_template_file.relative_to(template_folder)
+            dest_template_file =  pathlib.Path(self.extract_path, 'debian', relative_template_file)
+
+            # Render destination filename using Jinja
+            dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
+
+            if abs_template_file.is_dir():
+                self.logger.info('Creating directory: %s', dest_template_file)
+                os.makedirs(dest_template_file)
+
+        # Secoond iteration to create files
+        for abs_template_file in template_folder.glob('**/*'):
+
+            relative_template_file = abs_template_file.relative_to(template_folder)
+            dest_template_file =  pathlib.Path(self.extract_path, 'debian', relative_template_file)
+
+            # Render destination filename using Jinja
+            dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
+
+            if abs_template_file.is_file():
+                self.logger.info('Rendering file from template: %s', dest_template_file)
+                with open(abs_template_file, 'r') as template_fp:
+                    jinja2.Template(template_fp.read()).stream(**data).dump(dest_template_file)
+
+        import time
+        time.sleep(60)
