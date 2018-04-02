@@ -8,6 +8,7 @@ import os
 
 from GitActions import GitActions
 from TplActions import TplActions
+from DebActions import DebActions
 
 
 if __name__ == '__main__':
@@ -34,6 +35,7 @@ if __name__ == '__main__':
         parser.add_argument('-c', '--git-checkout', default='master', type=str, help='GIT tag or branch to checkout', metavar='master or v0.15.99.0')
         parser.add_argument('-v', '--version',      required=False,   type=str, help='Force package version',         metavar='1.0')
         parser.add_argument('-r', '--revision',     default=1,        type=int, help='Debian package revision',       metavar='1')
+        parser.add_argument('-o', '--out-dir',      default='/tmp',   type=str, help='Out folder for generated source package', metavar='/path/to')
         parser.add_argument('-m', '--maintainer-name',  default=default_username, type=str, help='Debian package maintainer pretty name',   metavar='John Doe')
         parser.add_argument('-e', '--maintainer-email', default=default_email,    type=str, help='Debian package maintainer email address', metavar='john@doe.com')
         return parser.parse_args()
@@ -66,3 +68,13 @@ if __name__ == '__main__':
             maintainer_email=config.maintainer_email,
         )
         tpl_actions.process()
+
+        # Generate Debian source package
+
+        deb_actions = DebActions(
+            name=config.name,
+            tmp_path=tmp_path,
+            extract_path=tpl_actions.extract_path,
+            out_dir=config.out_dir,
+        )
+        deb_actions.process()
