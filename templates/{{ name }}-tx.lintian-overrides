@@ -1,2 +1,4 @@
 # Linked code is Expat - only Debian packaging is GPL-2+
 {{ name }}-tx: possible-gpl-code-linked-with-openssl
+# Unofficial package have no ITP
+{{ name }}-tx: new-package-should-close-itp-bug
