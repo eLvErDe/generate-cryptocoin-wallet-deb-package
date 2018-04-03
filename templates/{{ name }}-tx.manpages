@@ -1,1 +1,2 @@
-doc/man/{{ name }}-tx.1
+doc/man/{{ name }}-tx.*
+contrib/debian/manpages/{{ name }}-tx.*

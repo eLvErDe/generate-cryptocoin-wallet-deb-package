@@ -1,2 +1,4 @@
-doc/man/{{ name }}d.1
-doc/man/{{ name }}-cli.1
+doc/man/{{ name }}d.*
+doc/man/{{ name }}-cli.*
+contrib/debian/manpages/{{ name }}d.*
+contrib/debian/manpages/{{ name }}-cli.*

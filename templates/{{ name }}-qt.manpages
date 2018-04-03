@@ -1,1 +1,2 @@
-doc/man/{{ name }}-qt.1
+doc/man/{{ name }}-qt.*
+contrib/debian/manpages/{{ name }}-qt.*
