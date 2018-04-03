@@ -2,7 +2,6 @@ Source: {{ name }}
 Section: utils
 Priority: optional
 Maintainer: {{ maintainer_name }} <{{ maintainer_email }}>
-Uploaders: {{ maintainer_name }} <{{ maintainer_email }}>
 Build-Depends: debhelper,
  devscripts,
  automake,
@@ -29,7 +28,7 @@ Build-Depends: debhelper,
  lsb-release,
 # To generate missing png/xpm icons
  imagemagick,
-Standards-Version: 3.9.2
+Standards-Version: 4.1.3
 Homepage: {{ git_url }}
 Vcs-Git: {{ git_url }}
 Vcs-Browser: {{ git_url }}
