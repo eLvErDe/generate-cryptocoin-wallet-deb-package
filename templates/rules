@@ -14,9 +14,9 @@ PKG_VERSION_TAG := $(PKG_VERSION)+$(DIST_NAME).$(DIST_RELEASE).$(DIST_VERSION)
 #	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_{{ name }})
 
 # For coin based on older versions
-export CC_FOR_BUILD="$(CC)"
-export CLAGS_FOR_BUILD="$(CFLAGS)"
-export CPPFLAGS_FOR_BUILD="$(CPPFLAGS)"
+export CC_FOR_BUILD=$(CC)
+export CLAGS_FOR_BUILD=$(CFLAGS)
+export CPPFLAGS_FOR_BUILD=$(CPPFLAGS)
 
 %:
 	dh --with bash-completion --parallel $@
