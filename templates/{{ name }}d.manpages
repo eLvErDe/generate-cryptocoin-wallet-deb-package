@@ -1,4 +1,6 @@
 doc/man/{{ name }}d.*
 doc/man/{{ name }}-cli.*
+doc/man/{{ name }}.conf.*
 contrib/debian/manpages/{{ name }}d.*
 contrib/debian/manpages/{{ name }}-cli.*
+contrib/debian/manpages/{{ name }}.conf.*
