@@ -1,0 +1,5 @@
+# If I want to keep wallet binary storage compatible with most of upstream
+# distributed binary wallet, I need to stick to this old release
+#
+# https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md#ubuntu--debian
+source: build-depends-on-versioned-berkeley-db
