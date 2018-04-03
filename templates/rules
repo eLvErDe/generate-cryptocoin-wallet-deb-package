@@ -36,8 +36,6 @@ override_dh_auto_clean:
 # Yea, autogen should be run on the source archive, but I like doing git archive
 override_dh_auto_configure:
 {%- if name == 'infinex' %}
-	# Infinex ships non executable shell scripts
-	find . -type f -name '*.sh' -exec chmod 0755 {} \;
 	# Infinex also use += before = which make autogen fail
 	sed -i 's!^\(CPPFLAGS_FOR_BUILD +=.*\)!CPPFLAGS_FOR_BUILD =\n\1!' src/secp256k1/Makefile.am
 	sed -i 's!^\(CFLAGS_FOR_BUILD +=.*\)!CFLAGS_FOR_BUILD =\n\1!' src/secp256k1/Makefile.am
@@ -51,6 +49,8 @@ override_dh_auto_configure:
 	convert -resize '16x16!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}16.xpm
 	sed -i 's!-Wno-unused-parameter -Wno-self-assign"!-Wno-unused-parameter"!' configure.ac
 {%- endif %}
+	# At least Infinex and VIVO ship non executable shell scripts
+	find . -type f -name '*.sh' -exec chmod 0755 {} \;
 	./autogen.sh
 	./configure --with-gui=qt5
 
