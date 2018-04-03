@@ -88,7 +88,7 @@ class TplActions:
         for abs_template_file in template_folder.glob('**/*'):
 
             relative_template_file = abs_template_file.relative_to(template_folder)
-            dest_template_file =  pathlib.Path(self.extract_path, 'debian', relative_template_file)
+            dest_template_file = pathlib.Path(self.extract_path, 'debian', relative_template_file)
 
             # Render destination filename using Jinja
             dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
@@ -101,7 +101,7 @@ class TplActions:
         for abs_template_file in template_folder.glob('**/*'):
 
             relative_template_file = abs_template_file.relative_to(template_folder)
-            dest_template_file =  pathlib.Path(self.extract_path, 'debian', relative_template_file)
+            dest_template_file = pathlib.Path(self.extract_path, 'debian', relative_template_file)
 
             # Render destination filename using Jinja
             dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
