@@ -2,7 +2,9 @@ Source: {{ name }}
 Section: utils
 Priority: optional
 Maintainer: {{ maintainer_name }} <{{ maintainer_email }}>
-Build-Depends: debhelper (>= 9.20160402~) | dh-autoreconf,
+Build-Depends: debhelper (>= 9),
+# Because they all need to re-run autoconf/automake
+ dh-autoreconf | debhelper (>= 9.20160403~),
  devscripts,
  automake,
  libtool,
