@@ -1,2 +1,2 @@
-usr/local/bin/{{ name }}d usr/bin
-usr/local/bin/{{ name }}-cli usr/bin
+usr/bin/{{ name }}d usr/bin
+usr/bin/{{ name }}-cli usr/bin

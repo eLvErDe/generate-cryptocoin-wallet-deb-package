@@ -1,4 +1,4 @@
-usr/local/bin/{{ name }}-qt usr/bin
+usr/bin/{{ name }}-qt usr/bin
 share/pixmaps/{{ name }}32.xpm usr/share/pixmaps
 share/pixmaps/{{ name }}16.xpm usr/share/pixmaps
 share/pixmaps/{{ name }}128.png usr/share/pixmaps

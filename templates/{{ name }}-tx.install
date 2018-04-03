@@ -1,1 +1,1 @@
-usr/local/bin/{{ name }}-tx usr/bin
+usr/bin/{{ name }}-tx usr/bin
