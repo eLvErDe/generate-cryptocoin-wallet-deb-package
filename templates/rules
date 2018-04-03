@@ -28,6 +28,9 @@ override_dh_auto_clean:
 	sed -i '/^CPPFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
 	sed -i '/^CFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
 	sed -i 's!-Wno-unused-parameter -Wno-implicit-fallthrough!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough!' configure.ac
+{%- elif name == 'tune' %}
+	rm -f share/pixmaps/{{ name }}128.png share/pixmaps/{{ name }}32.xpm share/pixmaps/{{ name }}16.xpm
+	sed -i 's!-Wno-unused-parameter"!-Wno-unused-parameter -Wno-self-assign"!' configure.ac
 {%- endif %}
 
 # Yea, autogen should be run on the source archive, but I like doing git archive
@@ -41,6 +44,12 @@ override_dh_auto_configure:
 	# This option is not available on older GCC
 	# https://github.com/bitcoin/bitcoin/pull/7954
 	sed -i 's!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough!-Wno-unused-parameter -Wno-implicit-fallthrough!' configure.ac
+{%- elif name == 'tune' %}
+	mkdir -p share/pixmaps
+	convert -resize '128x128!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}128.png
+	convert -resize '32x32!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}32.xpm
+	convert -resize '16x16!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}16.xpm
+	sed -i 's!-Wno-unused-parameter -Wno-self-assign"!-Wno-unused-parameter"!' configure.ac
 {%- endif %}
 	./autogen.sh
 	./configure --with-gui=qt5

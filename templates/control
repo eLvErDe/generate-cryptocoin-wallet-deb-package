@@ -27,6 +27,8 @@ Build-Depends: debhelper,
  libzmq3-dev,
 # To generated distribution tag in package version
  lsb-release,
+# To generate missing png/xpm icons
+ imagemagick,
 Standards-Version: 3.9.2
 Homepage: {{ git_url }}
 Vcs-Git: {{ git_url }}
