@@ -24,6 +24,7 @@ class GitActions:
         self.git_short_commit_id =None
         self.archive_path = None
         self.ignore_list = [ '.git', '.gitignore', 'binaries' ]
+        if name == 'tune': self.ignore_list.append('depends')
 
     def process(self):
         """ Sequencially run through all steps """
