@@ -29,8 +29,14 @@ Debian package maintainer email address (default: Guessed automatically)
 
 # Example
 
-`python3 main.py -g https://github.com/RavenProject/Ravencoin.git -c v0.15.99.0 -n raven`
+`python3 main.py -g https://github.com/RavenProject/Ravencoin.git -n raven -c v0.15.99.0`
 
 `python3 main.py -g https://github.com/Pigeoncoin/pigeoncoin.git -n pigeon -c master`
 
 `python3 main.py -g https://github.com/InfinexOfficial/Infinex.git -n infinex -c 1.0`
+
+`python3 main.py -g https://github.com/tune-crypto/tune.git -n tune -c v0.12.1.11`
+
+`python3 main.py -g https://github.com/pushiplay/pushi.git -n pushi -c v1.1.5`
+
+`python3 main.py -g https://github.com/vivocoin/vivo.git -n vivo -c v0.12.1.7`
