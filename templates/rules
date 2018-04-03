@@ -44,7 +44,7 @@ override_dh_autoreconf:
 	# https://github.com/bitcoin/bitcoin/pull/7954
 	# Newer forks do not have this issue, older may an list of CFLAGS varies
 	sed -i 's!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough"$$!-Wno-unused-parameter -Wno-implicit-fallthrough"!' configure.ac
-	sed -i 's!-Wno-unused-parameter -Wno-self-assign"!-Wno-unused-parameter"$$!' configure.ac
+	sed -i 's!-Wno-unused-parameter -Wno-self-assign"$$!-Wno-unused-parameter"!' configure.ac
 {%- if name == 'tune' %}
 	
 	mkdir -p share/pixmaps
