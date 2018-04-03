@@ -1,5 +1,6 @@
 {{ name }} ({{ version }}-{{ debian_revision }}) UNRELEASED; urgency=medium
 
-  * Initial release.
+  * Package generated using:
+    https://github.com/eLvErDe/generate-cryptocoin-wallet-deb-package
 
  -- {{ maintainer_name }} <{{ maintainer_email }}>  {{ timestamp }}
