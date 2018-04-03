@@ -1,4 +1,5 @@
 import os
+import re
 import logging
 import subprocess
 import datetime
@@ -72,6 +73,14 @@ class TplActions:
     def jinja2_render(self):
         """ Loop around files in templates folder and render them """
 
+        github_url_match = re.match(r'^(https://github.com/|git@github.com:)(.+)/(.+)\.git', self.git_url)
+        if github_url_match and github_url_match.group(2) is not None and github_url_match.group(3) is not None:
+            github_group_name = github_url_match.group(2)
+            github_project_name = github_url_match.group(3)
+        else:
+            github_group_name = 'unknown'
+            github_project_name = 'unknown'
+
         template_folder = pathlib.Path(FILE_FOLDER, 'templates')
         data = {
             'name': self.name,
@@ -81,6 +90,8 @@ class TplActions:
             'timestamp': self.now_debian_changelog(self.get_locale_tz()),
             'maintainer_name': self.maintainer_name,
             'maintainer_email': self.maintainer_email,
+            'github_group_name': github_group_name,
+            'github_project_name': github_project_name,
         }
         self.logger.info('Maintainer set to %s <%s>', self.maintainer_name, self.maintainer_email)
 
