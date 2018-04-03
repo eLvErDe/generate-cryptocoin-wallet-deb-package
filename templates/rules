@@ -19,10 +19,10 @@ export CLAGS_FOR_BUILD=$(CFLAGS)
 export CPPFLAGS_FOR_BUILD=$(CPPFLAGS)
 
 %:
-	dh --with bash-completion --parallel $@
+	dh $@ --with bash-completion,autoreconf --parallel
 
 override_dh_auto_clean:
-	if [ -f Makefile ]; then $(MAKE) distclean; fi
+	dh_auto_clean
 	rm -rf Makefile.in aclocal.m4 configure src/Makefile.in src/{{ name }}-config.h.in src/build-aux src/qt/Makefile.in src/qt/test/Makefile.in src/test/Makefile.in
 	sed -i '/^CPPFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
 	sed -i '/^CFLAGS_FOR_BUILD =/d' src/secp256k1/Makefile.am
@@ -32,8 +32,8 @@ override_dh_auto_clean:
 	rm -f share/pixmaps/{{ name }}128.png share/pixmaps/{{ name }}32.xpm share/pixmaps/{{ name }}16.xpm
 {%- endif %}
 
-# Yea, autogen should be run on the source archive, but I like doing git archive
-override_dh_auto_configure:
+# Fix autoconf/automake file before running dh-autoreconf
+override_dh_autoreconf:
 	
 	# Infinex, Vivo use += before = which make autogen fail
 	# It seems somehow related to the date of fork because newer coins do not have this issue
@@ -46,15 +46,21 @@ override_dh_auto_configure:
 	sed -i 's!-Wno-unused-parameter -Wno-self-assign -Wno-implicit-fallthrough"$$!-Wno-unused-parameter -Wno-implicit-fallthrough"!' configure.ac
 	sed -i 's!-Wno-unused-parameter -Wno-self-assign"!-Wno-unused-parameter"$$!' configure.ac
 {%- if name == 'tune' %}
+	
 	mkdir -p share/pixmaps
 	convert -resize '128x128!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}128.png
 	convert -resize '32x32!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}32.xpm
 	convert -resize '16x16!' src/qt/res/icons/bitcoin.png share/pixmaps/{{ name }}16.xpm
 {%- endif %}
+	
 	# At least Infinex and VIVO ship non executable shell scripts
 	find . -type f -name '*.sh' -exec chmod 0755 {} \;
-	./autogen.sh
-	./configure --with-gui=qt5
+	
+	# Finally run dh_autoreconf
+	dh_autoreconf
+
+override_dh_auto_configure:
+	dh_auto_configure -- --with-gui=qt5
 
 override_dh_gencontrol:
 	dh_gencontrol -- -v"$(PKG_VERSION_TAG)"
