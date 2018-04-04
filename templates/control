@@ -12,9 +12,6 @@ Build-Depends: debhelper (>= 9),
 # Fun facts: most coins just fork BTC with no changes, explaining why
 # They are all stuck to this old version as well
  libdb4.8++-dev,
- libssl-dev,
- pkg-config,
- libevent-dev,
 # BOOST depencencies
 # Most coins requires 1.49, see BOOST_VERSION in configure.ac
  libboost-system-dev (>= 1.49~),
@@ -23,13 +20,12 @@ Build-Depends: debhelper (>= 9),
  libboost-thread-dev (>= 1.49~),
  libboost-chrono-dev (>= 1.49~),
  libboost-test-dev (>= 1.49~),
- libminiupnpc8-dev | libminiupnpc-dev,
- qt5-qmake,
- qttools5-dev-tools, qttools5-dev,
- libqrencode-dev,
- libprotobuf-dev, protobuf-compiler,
- python,
- libzmq3-dev,
+# MiniUPNPC for automatic port DNAT (P2P)
+ libminiupnpc-dev,
+# Graphical wallet needs QT5 or QT4
+ qtbase5-dev-tools,
+# pkg-config
+ pkg-config,
 # To generated distribution tag in package version
  lsb-release,
 # To generate missing png/xpm icons
