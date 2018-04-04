@@ -34,7 +34,7 @@ Build-Depends: debhelper (>= 9),
 # libevent
  libevent-dev,
 # Protobuf compiler (protoc command)
- protobuf-compiler,
+ protobuf-compiler, libprotobuf-dev,
 # Optional: To broadcast blockchain events using ZeroMQ protocol
  libzmq3-dev (>= 4~),
 # Optional: To generate QR code within QT Wallet
