@@ -23,9 +23,22 @@ Build-Depends: debhelper (>= 9),
 # MiniUPNPC for automatic port DNAT (P2P)
  libminiupnpc-dev,
 # Graphical wallet needs QT5 or QT4
- qtbase5-dev-tools,
+# Will look for Qt5Core.pc Qt5Gui.pc Qt5Network.pc Qt5Widgets.pc
+ qtbase5-dev,
+# Provide lrelease binary
+ qttools5-dev-tools,
 # pkg-config
  pkg-config,
+# OpenSSL (seems to work just fine with 1.1)
+ libssl-dev,
+# libevent
+ libevent-dev,
+# Protobuf compiler (protoc command)
+ protobuf-compiler,
+# Optional: To broadcast blockchain events using ZeroMQ protocol
+ libzmq3-dev (>= 4~),
+# Optional: To generate QR code within QT Wallet
+ libqrencode-dev,
 # To generated distribution tag in package version
  lsb-release,
 # To generate missing png/xpm icons
