@@ -1,0 +1,3 @@
+etc/{{ name }}
+/var/lib/{{ name }}d
+/var/log/{{ name }}d

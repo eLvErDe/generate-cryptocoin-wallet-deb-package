@@ -1,0 +1,8 @@
+# For non-systemd systems (sysv initscript) set RUN to yes
+# after configuring /etc/{{ name }}/{{ name }}d.conf to enable service
+#
+# For systemd users, use systemctl enable/disable
+RUN=no
+
+# Additional arguments passed to the daemon
+#OPTS_ARGS=""
