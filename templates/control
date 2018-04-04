@@ -7,8 +7,7 @@ Build-Depends: debhelper (>= 9),
  dh-autoreconf | debhelper (>= 9.20160403~),
 # To use dh --with bash-completion
  bash-completion,
-# Forget binary compat and do not depends on prehistoric libdb++4.8-dev
- libdb++-dev,
+ libdb4.8++-dev,
  libssl-dev,
  pkg-config,
  libevent-dev,
