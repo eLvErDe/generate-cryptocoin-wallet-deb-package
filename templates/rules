@@ -69,6 +69,6 @@ override_dh_auto_install:
 	dh_auto_install
 	install -o root -g root -m 0640 \
 	  "$(CURDIR)/contrib/debian/examples/{{ name }}.conf" \
-	  "$(CURDIR)/debian/{{ name }}d/etc/{{ name }}/{{ name }}.conf"
+	  "$(CURDIR)/debian/{{ name }}d/etc/{{ name }}/{{ name }}d.conf"
 
 override_dh_auto_test:
