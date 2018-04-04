@@ -7,6 +7,10 @@ Build-Depends: debhelper (>= 9),
  dh-autoreconf | debhelper (>= 9.20160403~),
 # To use dh --with bash-completion
  bash-completion,
+# Keep this very old BerkeleyDB because it this one used by BTC
+# If built with different version wallet.dat may become incompatible
+# Fun facts: most coins just fork BTC with no changes, explaining why
+# They are all stuck to this old version as well
  libdb4.8++-dev,
  libssl-dev,
  pkg-config,
