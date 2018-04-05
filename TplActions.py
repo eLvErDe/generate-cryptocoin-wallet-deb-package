@@ -120,4 +120,4 @@ class TplActions:
             if abs_template_file.is_file():
                 self.logger.info('Rendering file from template: %s', dest_template_file)
                 with open(abs_template_file, 'r') as template_fp:
-                    jinja2.Template(template_fp.read()).stream(**data).dump(dest_template_file)
+                    jinja2.Template(template_fp.read()+'\n').stream(**data).dump(dest_template_file)
