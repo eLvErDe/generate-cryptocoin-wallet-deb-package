@@ -1,0 +1,26 @@
+# For classic init launch with stdout/stderr redirection
+/var/log/{{ name }}d/output.log
+{
+	daily
+	missingok
+	compress
+	delaycompress
+	rotate 14
+	copytruncate
+}
+
+# Systemd journald/rsyslog integration 
+/var/log/{{ name }}d/journald.log
+{
+	daily
+	missingok
+	compress
+	delaycompress
+	rotate 14
+	sharedscripts
+	postrotate
+		if [ -x /usr/sbin/rsyslogd ]; then
+			invoke-rc.d rsyslog rotate
+		fi
+	endscript
+}
