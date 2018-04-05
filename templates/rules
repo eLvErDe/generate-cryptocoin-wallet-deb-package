@@ -67,8 +67,13 @@ override_dh_gencontrol:
 
 override_dh_auto_install:
 	dh_auto_install
+	# Conf file
 	install -o root -g root -m 0640 \
 	  "$(CURDIR)/contrib/debian/examples/{{ name }}.conf" \
 	  "$(CURDIR)/debian/{{ name }}d/etc/{{ name }}/{{ name }}d.conf"
+	# Rsyslog config for systemd/journald
+	install -o root -g root -m 0644 \
+	  "$(CURDIR)/debian/{{ name }}d.rsyslog" \
+	  "$(CURDIR)/debian/{{ name }}d/etc/rsyslog.d/{{ name }}d.conf"
 
 override_dh_auto_test:
