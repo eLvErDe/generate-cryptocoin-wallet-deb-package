@@ -32,7 +32,7 @@ if [ "x$RUN" != "xyes" ] ; then
 fi
 
 DAEMON_ARGS="-daemon -pidfile=${PIDFILE} -conf=${CONF} -datadir=${DATADIR} -printtoconsole=1 -shrinkdebugfile=0 ${OPTS_ARGS}"
-START_ARGS="--nicelevel=19 --procsched=other:1 --iosched=idle:7"
+START_ARGS="--nicelevel=19 --procsched=other:1 --iosched=idle:7 --chuid debian-{{ name }}d:debian-{{ name }}d"
 
 # Override start command to redirect log file
 

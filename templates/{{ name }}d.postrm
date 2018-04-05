@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+
+    purge)
+        deluser --quiet --system debian-{{ name }}d > /dev/null || true
+
+	echo "Please remove /var/log/{{ name }}d and /var/lib/{{ name }}d yourself"
+	echo "Be carefull, you will delete your private key file wallet.dat by doing so"
+	sleep 5
+
+    ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

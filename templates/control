@@ -50,7 +50,9 @@ Vcs-Browser: {{ git_url }}
 
 Package: {{ name }}d
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends},
+# To create dedicated user
+ adduser,
 Description: {{ name|capitalize }} p2p digital currency - daemon
  {{ name|capitalize }} is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or

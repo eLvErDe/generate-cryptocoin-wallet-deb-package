@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    configure)
+
+        # Create user
+        if ! getent passwd debian-{{ name }}d >/dev/null; then
+          adduser --disabled-password --quiet --system \
+            --home /var/lib/{{ name }}d --no-create-home \
+            --group debian-{{ name }}d
+        fi
+
+	# Fix permissions
+	for folder in /var/lib/{{ name }}d /var/log/{{ name }}d; do
+
+	  if [ -d "${folder}" ]; then
+	    OWNER=$(stat -c '%U' ${folder})
+	    GROUP=$(stat -c '%G' ${folder})
+	    if [ "${OWNER}:${GROUP}" != "debian-{{ name }}d:debian-{{ name }}d" ]; then
+	      chown -R debian-{{ name }}d:debian-{{ name }}d ${folder}
+	    fi
+	  fi
+
+	done
+
+	# Apply rsyslog configuration
+	if [ -x /usr/sbin/rsyslogd ]; then
+	  invoke-rc.d rsyslog restart
+	fi
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0
