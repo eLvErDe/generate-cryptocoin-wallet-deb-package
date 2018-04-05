@@ -76,4 +76,7 @@ override_dh_auto_install:
 	  "$(CURDIR)/debian/{{ name }}d.rsyslog" \
 	  "$(CURDIR)/debian/{{ name }}d/etc/rsyslog.d/{{ name }}d.conf"
 
+override_dh_fixperms:
+	dh_fixperms -Xetc/{{ name }}
+
 override_dh_auto_test:
