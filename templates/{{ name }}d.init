@@ -31,7 +31,7 @@ if [ "x$RUN" != "xyes" ] ; then
     exit 0
 fi
 
-DAEMON_ARGS="-daemon -pidfile=${PIDFILE} -conf=${CONF} -datadir=${DATADIR} -printtoconsole ${OPTS_ARGS}"
+DAEMON_ARGS="-daemon -pidfile=${PIDFILE} -conf=${CONF} -datadir=${DATADIR} -printtoconsole=1 -shrinkdebugfile=0 ${OPTS_ARGS}"
 
 # Override start command to redirect log file
 
@@ -47,8 +47,8 @@ do_start_cmd_override() {
         start-stop-daemon --start --quiet ${PIDFILE:+--pidfile ${PIDFILE}} \
             $START_ARGS \
             --startas $DAEMON --name $NAME --exec $DAEMON >>${LOG} 2>&1 -- $DAEMON_ARGS \
-            >>${LOG} 2>&1 \
             || return 2
         # Add code here, if necessary, that waits for the process to be ready
         # to handle requests from services started subsequently which depend
         # on this one.  As a last resort, sleep for some time.
+}
