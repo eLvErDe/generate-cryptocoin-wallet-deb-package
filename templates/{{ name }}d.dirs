@@ -1,3 +1,4 @@
 etc/{{ name }}
+etc/rsyslog.d
 /var/lib/{{ name }}d
 /var/log/{{ name }}d
