@@ -25,6 +25,14 @@ case "$1" in
 
 	done
 
+	if [ -d "/etc/{{ name }}" ]; then
+	  OWNER=$(stat -c '%U' ${folder})
+	  GROUP=$(stat -c '%G' ${folder})
+	  if [ "${OWNER}:${GROUP}" != "root:debian-{{ name }}d" ]; then
+	    chown -R root:debian-{{ name }}d /etc/{{ name }}
+	  fi
+	fi
+
 	# Apply rsyslog configuration
 	if [ -x /usr/sbin/rsyslogd ]; then
 	  invoke-rc.d rsyslog restart
