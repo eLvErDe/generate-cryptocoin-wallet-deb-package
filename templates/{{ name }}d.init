@@ -21,7 +21,7 @@ NAME={{ name }}d
 PIDFILE=/var/run/{{ name }}d.pid
 CONF=/etc/{{ name }}/{{ name }}d.conf
 DATADIR=/var/lib/{{ name }}d
-LOG=/var/log/{{ name }}d/debug.log
+LOG=/var/log/{{ name }}d/output.log
 
 if [ -f /etc/default/${NAME} ] ; then
     . /etc/default/${NAME}
