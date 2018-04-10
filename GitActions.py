@@ -55,7 +55,7 @@ class GitActions:
         cmd.append(self.clone_path)
         self.logger.info('About to run: %s', ' '.join(cmd))
         try:
-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=120)
+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=300)
             self.log_output(output, 'git_clone: ')
             return output
         except subprocess.CalledProcessError as e:
