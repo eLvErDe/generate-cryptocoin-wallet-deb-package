@@ -1,2 +1,2 @@
-:syslogtag, isequal, "{{ name }}d:" /var/log/{{ name }}d/journald.log
+:syslogtag, startswith, "{{ name }}d[" /var/log/{{ name }}d/journald.log
 & stop
