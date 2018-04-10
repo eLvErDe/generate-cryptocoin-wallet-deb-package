@@ -1,0 +1,27 @@
+[Unit]
+Description={{ name|capitalize }} p2p digital currency daemon
+
+[Service]
+Type=simple
+Environment=CONF=/etc/{{ name }}/{{ name }}d.conf
+Environment=DATADIR=/var/lib/{{ name }}d
+EnvironmentFile=/etc/default/{{ name }}d
+RestartSec=30
+Restart=always
+User=debian-{{ name }}d
+Group=debian-{{ name }}d
+Nice=19
+IOSchedulingClass=idle
+IOSchedulingPriority=7
+CPUSchedulingPolicy=idle
+CPUSchedulingResetOnFork=false
+StandardOutput=journal
+StandardError=journal
+SyslogLevel=info
+SyslogIdentifier={{ name }}d
+PIDFile=/var/run/{{ name }}d.pid
+ExecStartPre=/usr/bin/logger -t {{ name }}d --id "Starting {{ name }}d with parameters: -pidfile=/var/run/{{ name }}d.pid -conf=${CONF} -datadir=${DATADIR} -printtoconsole=1 ${OPTS_ARGS}"
+ExecStart=/usr/bin/{{ name }}d -pidfile=/var/run/{{ name }}d.pid -conf=${CONF} -datadir=${DATADIR} -printtoconsole=1 $OPTS_ARG
+
+[Install]
+WantedBy=multi-user.target
