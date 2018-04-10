@@ -40,3 +40,5 @@ Debian package maintainer email address (default: Guessed automatically)
 `python3 main.py -g https://github.com/pushiplay/pushi.git -n pushi -c v1.1.5`
 
 `python3 main.py -g https://github.com/vivocoin/vivo.git -n vivo -c v0.12.1.7`
+
+`python3 main.py -g https://github.com/Endorphincoin/endorphin.git -n endorphin -c v1.0.0.2`
