@@ -9,9 +9,33 @@ DIST_RELEASE := $(shell lsb_release -sc)
 DIST_VERSION := $(shell lsb_release -sr)
 PKG_VERSION_TAG := $(PKG_VERSION)+$(DIST_NAME).$(DIST_RELEASE).$(DIST_VERSION)
 
-#DEB_MAKE_CHECK_TARGET = test_{{ name }}
-#build/{{ name }}d::
-#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_{{ name }})
+# We need a release "version" when building on Debian testing/unstable
+ifeq ($(DIST_VERSION),$(filter $(DIST_VERSION),testing unstable))
+  PROPER_DIST_VERSION := 10
+else
+  PROPER_DIST_VERSION := $(DIST_VERSION)
+endif
+
+# Some variables to determine which arch we are building on
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+DEB_BUILD_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_BUILD_BITS := $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
+
+{%- if name in [ 'raven', 'pigeon' ] %}
+# Raven and Pigeon do not build on old Debian/Ubuntu
+# Before Debian Stretch
+ifeq ($(DIST_NAME),Debian)
+  ifeq ($(shell dpkg --compare-versions $(PROPER_DIST_VERSION) lt 9 && echo yes),yes)
+    CPPFLAGS += -fPIC
+  endif
+endif
+# Before Ubuntu Artful
+ifeq ($(DIST_NAME),Ubuntu)
+  ifeq ($(shell dpkg --compare-versions $(PROPER_DIST_VERSION) lt 17.10 && echo yes),yes)
+    CPPFLAGS += -fPIC
+  endif
+endif
+{%- endif %}
 
 # For coin based on older versions
 export CC_FOR_BUILD=$(CC)
