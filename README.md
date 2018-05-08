@@ -46,3 +46,5 @@ Debian package maintainer email address (default: Guessed automatically)
 `python3 main.py -g https://github.com/innovacoin/innova.git -n innova -c 1.0.3`
 
 `python3 main.py -g https://github.com/gobytecoin/gobyte.git -n gobyte -c v0.12.1.3`
+
+`python3 main.py -g https://github.com/CryptoBridge/bridgecoin.git -n bridgecoin -c master -v 1.0.1+git20180419.master.0bdb7f8`
