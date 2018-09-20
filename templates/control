@@ -29,8 +29,13 @@ Build-Depends: debhelper (>= 9),
  qttools5-dev-tools,
 # pkg-config
  pkg-config,
-# OpenSSL (seems to work just fine with 1.1)
+{%- if name in [ 'biblepay' ] %}
+# OpenSSL 1.0, do not build with 1.1
+ libssl-dev (<< 1.1~) | libssl1.0-dev,
+{%- else %}
+# OpenSSL 1.0 or 1.1
  libssl-dev,
+{%- endif %}
 # libevent
  libevent-dev,
 # Protobuf compiler (protoc command)
