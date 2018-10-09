@@ -37,6 +37,12 @@ ifeq ($(DIST_NAME),Ubuntu)
 endif
 {%- endif %}
 
+CONFIGURE_FLAGS :=
+# Recent coins disable coin-tx binary by default
+ifeq ($(shell grep -q -- '--with-2tx' configure.ac && echo yes),yes)
+  CONFIGURE_FLAGS += --with-tx=yes
+endif
+
 # For coin based on older versions
 export CC_FOR_BUILD=$(CC)
 export CLAGS_FOR_BUILD=$(CFLAGS)
@@ -91,7 +97,7 @@ override_dh_autoreconf:
 	dh_autoreconf
 
 override_dh_auto_configure:
-	dh_auto_configure -- --with-gui=qt5
+	dh_auto_configure -- --with-gui=qt5 $(CONFIGURE_FLAGS)
 
 override_dh_gencontrol:
 	dh_gencontrol -- -v"$(PKG_VERSION_TAG)"
