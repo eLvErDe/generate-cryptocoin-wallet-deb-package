@@ -39,7 +39,7 @@ endif
 
 CONFIGURE_FLAGS :=
 # Recent coins disable coin-tx binary by default
-ifeq ($(shell grep -q -- '--with-2tx' configure.ac && echo yes),yes)
+ifeq ($(shell grep -q -- '--with-tx' configure.ac && echo yes),yes)
   CONFIGURE_FLAGS += --with-tx=yes
 endif
 
