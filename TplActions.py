@@ -7,6 +7,9 @@ import pathlib
 import jinja2
 
 
+# pylint: disable=line-too-long
+
+
 FILE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -64,8 +67,8 @@ class TplActions:
         try:
             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=60)
             self.log_output(output, 'untar: ')
-        except subprocess.CalledProcessError as e:
-            self.log_output(e.output, 'untar: ')
+        except subprocess.CalledProcessError as exc:
+            self.log_output(exc.output, 'untar: ')
             raise
 
         self.logger.info('Upstream source tarball extracted to %s', self.extract_path)
@@ -151,14 +154,14 @@ class TplActions:
 # For testing purpose, low cost unittests
 if __name__ == '__main__':
 
-  ACTIONS = TplActions(name='not set', tmp_path='/tmp/not_set', archive_path=None, git_url=None, version=None, debian_revision=None, maintainer_name=None, maintainer_email=None)
+    ACTIONS = TplActions(name='not set', tmp_path='/tmp/not_set', archive_path=None, git_url=None, version=None, debian_revision=None, maintainer_name=None, maintainer_email=None)
 
-  DPKG_CMP_VER_TUPLES = [
-      ('1.0.0', 'lt', '1.0.0'),
-      ('1.0.0', 'le', '1.0.0'),
-      ('1.0.0~rc1', 'lt', '1.0.0'),
-  ]
+    DPKG_CMP_VER_TUPLES = [
+        ('1.0.0', 'lt', '1.0.0'),
+        ('1.0.0', 'le', '1.0.0'),
+        ('1.0.0~rc1', 'lt', '1.0.0'),
+    ]
 
-  for DPKG_CMP_VER_TUPLE in DPKG_CMP_VER_TUPLES:
-      res = ACTIONS.dpkg_cmp_ver(*DPKG_CMP_VER_TUPLE)
-      print('%s returned %s' % (DPKG_CMP_VER_TUPLE, res))
+    for DPKG_CMP_VER_TUPLE in DPKG_CMP_VER_TUPLES:
+        res = ACTIONS.dpkg_cmp_ver(*DPKG_CMP_VER_TUPLE)
+        print('%s returned %s' % (DPKG_CMP_VER_TUPLE, res))
