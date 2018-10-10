@@ -70,6 +70,31 @@ class TplActions:
 
         self.logger.info('Upstream source tarball extracted to %s', self.extract_path)
 
+    def dpkg_cmp_ver(self, ver1, op, ver2):  # pylint: disable=invalid-name
+        """ Run dpkg --compare-versions and return True if match else False """
+
+        assert isinstance(ver1, str) and ver1, 'ver1 argument should be a non empty string'
+        assert isinstance(op, str) and op, 'op argument should be a non empty string'
+        assert isinstance(ver2, str) and ver2, 'ver2 argument should be a non empty string'
+        assert op in ['lt', 'le', 'eq', 'ne', 'ge', 'gt'], 'op should be one of: lt, le, eq, ne, ge or gt'
+
+        cmd = []
+        cmd.append('dpkg')
+        cmd.append('--compare-versions')
+        cmd.append(ver1)
+        cmd.append(op)
+        cmd.append(ver2)
+        self.logger.info('About to run: %s', ' '.join(cmd))
+        try:
+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=2)
+            self.log_output(output, 'dpkg --compare-versions: ')
+            return True
+        except subprocess.CalledProcessError as exc:
+            if exc.returncode == 1:
+                return False
+            self.log_output(exc.output, 'dpkg --compare-versions: ')
+            raise
+
     def jinja2_render(self):
         """ Loop around files in templates folder and render them """
 
@@ -121,3 +146,19 @@ class TplActions:
                 self.logger.info('Rendering file from template: %s', dest_template_file)
                 with open(abs_template_file, 'r') as template_fp:
                     jinja2.Template(template_fp.read()+'\n').stream(**data).dump(dest_template_file)
+
+
+# For testing purpose, low cost unittests
+if __name__ == '__main__':
+
+  ACTIONS = TplActions(name='not set', tmp_path='/tmp/not_set', archive_path=None, git_url=None, version=None, debian_revision=None, maintainer_name=None, maintainer_email=None)
+
+  DPKG_CMP_VER_TUPLES = [
+      ('1.0.0', 'lt', '1.0.0'),
+      ('1.0.0', 'le', '1.0.0'),
+      ('1.0.0~rc1', 'lt', '1.0.0'),
+  ]
+
+  for DPKG_CMP_VER_TUPLE in DPKG_CMP_VER_TUPLES:
+      res = ACTIONS.dpkg_cmp_ver(*DPKG_CMP_VER_TUPLE)
+      print('%s returned %s' % (DPKG_CMP_VER_TUPLE, res))
