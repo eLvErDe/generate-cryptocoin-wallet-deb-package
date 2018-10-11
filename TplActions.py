@@ -73,7 +73,8 @@ class TplActions:
 
         self.logger.info('Upstream source tarball extracted to %s', self.extract_path)
 
-    def dpkg_cmp_ver(self, ver1, op, ver2):  # pylint: disable=invalid-name
+    @staticmethod
+    def dpkg_cmp_ver(ver1, op, ver2):  # pylint: disable=invalid-name
         """ Run dpkg --compare-versions and return True if match else False """
 
         assert isinstance(ver1, str) and ver1, 'ver1 argument should be a non empty string'
@@ -87,15 +88,12 @@ class TplActions:
         cmd.append(ver1)
         cmd.append(op)
         cmd.append(ver2)
-        self.logger.info('About to run: %s', ' '.join(cmd))
         try:
             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=2)
-            self.log_output(output, 'dpkg --compare-versions: ')
             return True
         except subprocess.CalledProcessError as exc:
             if exc.returncode == 1:
                 return False
-            self.log_output(exc.output, 'dpkg --compare-versions: ')
             raise
 
     def jinja2_render(self):
@@ -123,6 +121,12 @@ class TplActions:
         }
         self.logger.info('Maintainer set to %s <%s>', self.maintainer_name, self.maintainer_email)
 
+        # Create Jinja2 environment and register dpkg_cmp_ver test
+        jinja2_env = jinja2.Environment(
+            loader=jinja2.BaseLoader(),
+        )
+        jinja2_env.tests['dpkg_cmp_ver'] = self.dpkg_cmp_ver
+
         # First iteration to create folder
         for abs_template_file in template_folder.glob('**/*'):
 
@@ -130,7 +134,7 @@ class TplActions:
             dest_template_file = pathlib.Path(self.extract_path, 'debian', relative_template_file)
 
             # Render destination filename using Jinja
-            dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
+            dest_template_file = jinja2_env.from_string(str(dest_template_file)).render(**data)
 
             if abs_template_file.is_dir():
                 self.logger.info('Creating directory: %s', dest_template_file)
@@ -143,12 +147,12 @@ class TplActions:
             dest_template_file = pathlib.Path(self.extract_path, 'debian', relative_template_file)
 
             # Render destination filename using Jinja
-            dest_template_file = jinja2.Environment(loader=jinja2.BaseLoader()).from_string(str(dest_template_file)).render(**data)
+            dest_template_file = jinja2_env.from_string(str(dest_template_file)).render(**data)
 
             if abs_template_file.is_file():
                 self.logger.info('Rendering file from template: %s', dest_template_file)
                 with open(abs_template_file, 'r') as template_fp:
-                    jinja2.Template(template_fp.read()+'\n').stream(**data).dump(dest_template_file)
+                    jinja2_env.from_string(template_fp.read()+'\n').stream(**data).dump(dest_template_file)
 
 
 # For testing purpose, low cost unittests
