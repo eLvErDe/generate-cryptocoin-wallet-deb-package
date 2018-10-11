@@ -38,9 +38,17 @@ endif
 {%- endif %}
 
 CONFIGURE_FLAGS :=
+DEBHELPER_FLAGS :=
 # Recent coins disable coin-tx binary by default
 ifeq ($(shell grep -q -- '--with-tx' configure.ac && echo yes),yes)
+  {%- if name == 'raven' and version is dpkg_cmp_ver('ge', '2.0.1') %}
+  # Raven >= 2.0.1
+  # https://github.com/RavenProject/Ravencoin/issues/376
+  CONFIGURE_FLAGS += --with-tx=no
+  DEBHELPER_FLAGS += --no-package=raven-tx
+  {%- else %}
   CONFIGURE_FLAGS += --with-tx=yes
+  {%- endif %}
 endif
 
 # For coin based on older versions
@@ -49,7 +57,7 @@ export CLAGS_FOR_BUILD=$(CFLAGS)
 export CPPFLAGS_FOR_BUILD=$(CPPFLAGS)
 
 %:
-	dh $@ --with bash-completion,autoreconf --parallel
+	dh $@ --with bash-completion,autoreconf --parallel -- $(DEBHELPER_FLAGS)
 
 override_dh_auto_clean:
 	-dh_auto_clean
