@@ -97,6 +97,12 @@ override_dh_autoreconf:
 	convert -resize '32x32!' share/pixmaps/dash128.png share/pixmaps/{{ name }}32.xpm
 	convert -resize '16x16!' share/pixmaps/dash128.png share/pixmaps/{{ name }}16.xpm
 {%- endif %}
+{%- if name in [ 'bitcoindiamond' ] %}
+	
+	ln -sf bitcoin128.png share/pixmaps/{{ name }}128.png
+	ln -sf bitcoin32.xpm share/pixmaps/{{ name }}32.xpm
+	ln -sf bitcoin16.xpm share/pixmaps/{{ name }}16.xpm
+{%- endif %}
 	
 	# At least Infinex and VIVO ship non executable shell scripts
 	find . -type f -name '*.sh' -exec chmod 0755 {} \;
