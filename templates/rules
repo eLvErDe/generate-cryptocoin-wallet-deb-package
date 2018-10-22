@@ -99,9 +99,9 @@ override_dh_autoreconf:
 {%- endif %}
 {%- if name in [ 'bitcoindiamond' ] %}
 	
-	ln -sf bitcoin128.png share/pixmaps/{{ name }}128.png
-	ln -sf bitcoin32.xpm share/pixmaps/{{ name }}32.xpm
-	ln -sf bitcoin16.xpm share/pixmaps/{{ name }}16.xpm
+	cp -v share/pixmaps/bitcoin128.png share/pixmaps/{{ name }}128.png
+	cp -v share/pixmaps/bitcoin32.xpm share/pixmaps/{{ name }}32.xpm
+	cp -v share/pixmaps/bitcoin16.xpm share/pixmaps/{{ name }}16.xpm
 {%- endif %}
 	
 	# At least Infinex and VIVO ship non executable shell scripts
