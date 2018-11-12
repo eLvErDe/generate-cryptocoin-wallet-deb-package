@@ -51,6 +51,12 @@ ifeq ($(shell grep -q -- '--with-tx' configure.ac && echo yes),yes)
   {%- endif %}
 endif
 
+{%- if name in ['exosis'] %}
+
+# Exosis has broken tests
+CONFIGURE_FLAGS += --disable-tests
+{%- endif %}
+
 # For coin based on older versions
 export CC_FOR_BUILD=$(CC)
 export CLAGS_FOR_BUILD=$(CFLAGS)
@@ -102,6 +108,12 @@ override_dh_autoreconf:
 	cp -v share/pixmaps/bitcoin128.png share/pixmaps/{{ name }}128.png
 	cp -v share/pixmaps/bitcoin32.xpm share/pixmaps/{{ name }}32.xpm
 	cp -v share/pixmaps/bitcoin16.xpm share/pixmaps/{{ name }}16.xpm
+{%- endif %}
+{%- if name in [ 'exosis' ] %}
+	
+	convert -resize '128x128!' share/pixmaps/{{ name }}.png share/pixmaps/{{ name }}128.png
+	convert -resize '32x32!' share/pixmaps/{{ name }}.png share/pixmaps/{{ name }}32.xpm
+	convert -resize '16x16!' share/pixmaps/{{ name }}.png share/pixmaps/{{ name }}16.xpm
 {%- endif %}
 	
 	# At least Infinex and VIVO ship non executable shell scripts

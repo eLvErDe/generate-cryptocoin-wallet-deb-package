@@ -52,3 +52,5 @@ Debian package maintainer email address (default: Guessed automatically)
 `python3 main.py -g https://github.com/biblepay/biblepay.git -n biblepay -c 1.1.3.8`
 
 `python3 main.py -g https://github.com/eveybcd/BitcoinDiamond.git -n bitcoindiamond -c v1.1.1`
+
+`python3 main.py -g https://github.com/exosiscrypto/exosis.git -n exosis -c 0.16.4`
